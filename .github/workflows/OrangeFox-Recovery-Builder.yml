@@ -106,7 +106,25 @@ jobs:
         git clone ${{ github.event.inputs.DEVICE_TREE }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.DEVICE_PATH }}
         cd ${{ github.event.inputs.DEVICE_PATH }}
         echo "COMMIT_ID=$(git rev-parse HEAD)" >> $GITHUB_ENV
-
+    
+    - name: Debug - Find common configs
+      run: |
+        cd ${GITHUB_WORKSPACE}/OrangeFox/fox_12.1
+        echo "=== Looking for common.mk files ==="
+        find vendor -name "common.mk" 2>/dev/null || echo "No common.mk files found"
+        echo ""
+        echo "=== Looking for OrangeFox config directory ==="
+        ls -la vendor/orangefox/ 2>/dev/null || echo "vendor/orangefox not found"
+        echo ""
+        echo "=== Looking for omni config directory ==="
+        ls -la vendor/omni/ 2>/dev/null || echo "vendor/omni not found"
+        echo ""
+        echo "=== Looking for twrp config directory ==="
+        ls -la vendor/twrp/ 2>/dev/null || echo "vendor/twrp not found"
+        echo ""
+        echo "=== Searching all vendor directories for config ==="
+        find vendor -type d -name "config" 2>/dev/null | head -10
+    
     - name: Check Manifest Branch
       uses: haya14busa/action-cond@v1
       id: fox_branch
