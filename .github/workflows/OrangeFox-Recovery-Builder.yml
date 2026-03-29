@@ -124,6 +124,20 @@ jobs:
         echo ""
         echo "=== Searching all vendor directories for config ==="
         find vendor -type d -name "config" 2>/dev/null | head -10
+    - name: Debug - Check device tree structure
+      run: |
+        cd ${GITHUB_WORKSPACE}/OrangeFox/fox_12.1
+        echo "=== Checking device tree location ==="
+        ls -la device/motorola/penang/
+        echo ""
+        echo "=== Checking for product makefile ==="
+        ls -la device/motorola/penang/twrp_penang.mk
+        echo ""
+        echo "=== Checking AndroidProducts.mk ==="
+        cat device/motorola/penang/AndroidProducts.mk
+        echo ""
+        echo "=== Checking if lunch combo exists ==="
+        grep -r "twrp_penang" device/motorola/penang/
     
     - name: Check Manifest Branch
       uses: haya14busa/action-cond@v1
